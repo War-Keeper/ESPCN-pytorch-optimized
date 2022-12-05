@@ -24,9 +24,9 @@ The 91-image, Set5 dataset converted to HDF5 can be downloaded from the links be
 Otherwise, you can use `prepare.py` to create custom dataset.
 
 ```bash
-python train.py --train-file "BLAH_BLAH/91-image_x3.h5" \
-                --eval-file "BLAH_BLAH/Set5_x3.h5" \
-                --outputs-dir "BLAH_BLAH/outputs" \
+python train.py --train-file "dataset/91-image_x3.h5" \
+                --eval-file "dataset/Set5_x3.h5" \
+                --outputs-dir "outputs" \
                 --scale 3 \
                 --lr 1e-3 \
                 --batch-size 16 \
@@ -46,7 +46,7 @@ Pre-trained weights can be downloaded from the links below.
 The results are stored in the same path as the query image.
 
 ```bash
-python test.py --weights-file "BLAH_BLAH/espcn_x3.pth" \
+python test.py --weights-file "model/espcn_x3.pth" \
                --image-file "data/butterfly_GT.bmp" \
                --scale 3
 ```
@@ -95,3 +95,18 @@ PSNR was calculated on the Y channel.
     	</td>
     </tr>  
 </table>
+
+# Modified training script
+python train2.py --train-file "dataset/91-image_x3.h5" --eval-file "dataset/Set5_x3.h5" --outputs-dir "outputs" --scale 3 --lr 1e-3 --batch-size 32 --num-epochs 100 --num-workers 1 --seed 4 
+
+# Modified testing script
+python test2.py --weights-file "outputs/x3/best.pth" --image-file "data/dog.bmp" --scale 3
+
+# original testing script
+python test.py --weights-file "model/espcn_x3.pth" --image-file "data/dog.bmp" --scale 3
+
+# Modified pruning script
+python pruner.py --train-file "dataset/91-image_x3.h5" --eval-file "dataset/Set5_x3.h5" --outputs-dir "outputs" --scale 8 --lr 1e-3 --batch-size 32 --num-epochs 150 --num-workers 1 --seed 4 --weights-file "outputs/x3/best.pth" --sparsity 0.1
+
+# Modified pruning testing script
+python test2.py --weights-file "outputs/pruned_x8/pruned_best_149.pth" --image-file "data/dog.bmp" --scale 3
