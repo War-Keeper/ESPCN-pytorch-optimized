@@ -4,8 +4,10 @@ import torch
 import torch.backends.cudnn as cudnn
 import numpy as np
 import PIL.Image as pil_image
+import time
+import torchinfo
+from torchinfo import summary
 
-from models import ESPCN
 from utils import convert_ycbcr_to_rgb, preprocess, calc_psnr
 
 
@@ -32,6 +34,8 @@ if __name__ == '__main__':
 
     model.eval()
 
+    summary(model, (1, 28, 28))
+
     image = pil_image.open(args.image_file).convert('RGB')
 
     image_width = (image.width // args.scale) * args.scale
@@ -47,7 +51,10 @@ if __name__ == '__main__':
     _, ycbcr = preprocess(bicubic, device)
 
     with torch.no_grad():
+        t = time.time()
         preds = model(lr).clamp(0.0, 1.0)
+        t1 = time.time() - t
+        print("Time: ", t1)
 
     psnr = calc_psnr(hr, preds)
     print('PSNR: {:.2f}'.format(psnr))
