@@ -57,10 +57,12 @@ python train2.py --train-file "dataset/91-image_x3.h5" --eval-file "dataset/Set5
 
 ## Modified testing scripts
 python test2.py --weights-file "outputs/x3/best.pth" --image-file "data/dog.bmp" --scale 3
+
 python test2.py --weights-file "outputs/x3/best.pth" --image-file "data/traffic.bmp" --scale 3
 
 ## original testing scripts
 python test.py --weights-file "model/espcn_x3.pth" --image-file "data/dog.bmp" --scale 3
+
 python test.py --weights-file "model/espcn_x3.pth" --image-file "data/traffic.bmp" --scale 3
 
 ## Modified pruning script
