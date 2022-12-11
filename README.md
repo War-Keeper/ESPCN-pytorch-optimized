@@ -50,6 +50,24 @@ python test.py --weights-file "model/espcn_x3.pth" \
                --image-file "data/butterfly_GT.bmp" \
                --scale 3
 ```
+# Examples
+
+## Modified training script
+python train2.py --train-file "dataset/91-image_x3.h5" --eval-file "dataset/Set5_x3.h5" --outputs-dir "outputs" --scale 3 --lr 1e-3 --batch-size 32 --num-epochs 100 --num-workers 1 --seed 4 
+
+## Modified testing scripts
+python test2.py --weights-file "outputs/x3/best.pth" --image-file "data/dog.bmp" --scale 3
+python test2.py --weights-file "outputs/x3/best.pth" --image-file "data/traffic.bmp" --scale 3
+
+## original testing scripts
+python test.py --weights-file "model/espcn_x3.pth" --image-file "data/dog.bmp" --scale 3
+python test.py --weights-file "model/espcn_x3.pth" --image-file "data/traffic.bmp" --scale 3
+
+## Modified pruning script
+python pruner.py --train-file "dataset/91-image_x3.h5" --eval-file "dataset/Set5_x3.h5" --outputs-dir "outputs" --scale 4 --lr 1e-3 --batch-size 32 --num-epochs 150 --num-workers 1 --seed 4 --weights-file "outputs/x3/best.pth" --sparsity 0.1
+
+## Modified pruning testing script
+python test2.py --weights-file "outputs/pruned_x3/pruned_best_149.pth" --image-file "data/traffic.bmp" --scale 3
 
 ## Results
 
@@ -96,19 +114,5 @@ PSNR was calculated on the Y channel.
     </tr>  
 </table>
 
-# Modified training script
-python train2.py --train-file "dataset/91-image_x3.h5" --eval-file "dataset/Set5_x3.h5" --outputs-dir "outputs" --scale 3 --lr 1e-3 --batch-size 32 --num-epochs 100 --num-workers 1 --seed 4 
 
-# Modified testing scripts
-python test2.py --weights-file "outputs/x3/best.pth" --image-file "data/dog.bmp" --scale 3
-python test2.py --weights-file "outputs/x3/best.pth" --image-file "data/traffic.bmp" --scale 3
 
-# original testing scripts
-python test.py --weights-file "model/espcn_x3.pth" --image-file "data/dog.bmp" --scale 3
-python test.py --weights-file "model/espcn_x3.pth" --image-file "data/traffic.bmp" --scale 3
-
-# Modified pruning script
-python pruner.py --train-file "dataset/91-image_x3.h5" --eval-file "dataset/Set5_x3.h5" --outputs-dir "outputs" --scale 4 --lr 1e-3 --batch-size 32 --num-epochs 150 --num-workers 1 --seed 4 --weights-file "outputs/x3/best.pth" --sparsity 0.1
-
-# Modified pruning testing script
-python test2.py --weights-file "outputs/pruned_x3/pruned_best_149.pth" --image-file "data/traffic.bmp" --scale 3
